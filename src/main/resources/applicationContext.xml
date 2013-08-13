@@ -29,12 +29,17 @@
     </bean>
 
     <!-- Services -->
-    <bean id="showService" class="com.endoftheworldimprov.service.impl.ShowServiceImpl">
+    <bean id="showService" class="com.endoftheworldimprov.service.impl.ShowServiceImpl" />
+    <bean id="voteService" class="com.endoftheworldimprov.service.impl.VoteServiceImpl">
+        <property name="showService" ref="showService" />
     </bean>
 
     <!-- Resources -->
     <bean id="showResource" class="com.endoftheworldimprov.resource.ShowResource">
         <property name="showService" ref="showService" />
+    </bean>
+    <bean id="voteResource" class="com.endoftheworldimprov.resource.VoteResource">
+        <property name="voteService" ref="voteService" />
     </bean>
 
     <beans profile="default">
