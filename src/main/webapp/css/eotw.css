@@ -1,0 +1,49 @@
+/*!
+ * End of the World Show styles
+ */
+
+body {
+    background-color:#140f0f;
+    color: #CDCDCD;
+    margin: 0;
+}
+
+.hcenter {
+    margin: 0 auto;
+    text-align: center;
+}
+
+.content {
+    padding: 1em;
+}
+
+.header {
+    background-color:#140f0f;
+    background-image: url(/img/banner.jpg);
+    background-position: center top;
+    background-repeat: no-repeat;
+    height: 315px;
+}
+
+.results {
+    width: 275px;
+    height:240px;
+    margin-top: 1em;
+}
+
+/** Mobile specific styles **/
+@media screen and (max-width: 480px) {
+
+body {
+    font-size: 150%;
+}
+
+.header {
+    background-image: url(/img/banner-mobile.jpg);
+    height: 111px;
+}
+
+.teaser {
+    width: 300px;
+}
+}

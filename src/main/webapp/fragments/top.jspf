@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>The End of the World Show</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0-rc1/css/bootstrap.min.css" media="screen">
+    <link rel="stylesheet" href="css/webicons.css">
+    <link rel="stylesheet" href="css/eotw.css" media="screen">
+</head>
+<body>
+<div class="header"></div>
+
+<div class="content hcenter">

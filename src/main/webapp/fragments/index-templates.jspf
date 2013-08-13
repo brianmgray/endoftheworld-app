@@ -1,0 +1,39 @@
+<script id="default-template" type="text/x-handlebars-template">
+    <h2>Welcome council member.</h2>
+    <p>Council is not currently in session, but we will begin again soon. Stay tuned to
+        <a href="https://www.facebook.com/events/1395763647307110/" target="_blank">
+            broadcasts from home!</a> for more info.
+    </p>
+
+    <img src="img/teaser.jpg" style="teaser" class="img-responsive">
+</script>
+
+<script id="vote-template" type="text/x-handlebars-template">
+    <h3>Welcome council member.</h3>
+    <h2>Do you want to...</h2>
+    <form id="voteForm" class="form-inline hcenter">
+        <button id="btnSave" type="submit" class="btn btn-success">SAVE</button>
+        <button id="btnDestroy" type="submit" class="btn btn-danger">DESTROY</button>
+    </form>
+    <h2>the humans?</h2>
+</script>
+
+<script id="success-template" type="text/x-handlebars-template">
+    <h3>Survival seems dire.</h3>
+    <a class="webicon facebook large" title="Share on Facebook" target="_blank"
+       href="https://www.facebook.com/events/1395763647307110" ></a>
+    <a title="Share on Twitter" class="webicon twitter large" target="_blank"
+       href="https://www.twitter.com"></a>
+    <a class="webicon mail large" title="Share via email" target="_blank"
+       href="mailto:friend@email.com?subject=Amazing show at Arcade Comedy Theater&body=I just saw an amazing show called The End of the World Show at Arcade Comedy Theater. You should see it next Friday at 10pm (for just $10!). Check it out at https://www.facebook.com/events/1395763647307110."></a>
+    <div id="results" class="results hcenter"></div>
+</script>
+
+<script id="error-template" type="text/x-handlebars-template">
+    <h2>There's been a problem.</h2>
+    Check back with
+        <a href="https://www.facebook.com/events/1395763647307110/" target="_blank">
+            home base!
+        <a/>
+</script>
+
