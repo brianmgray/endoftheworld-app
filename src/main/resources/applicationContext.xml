@@ -12,7 +12,7 @@
                            http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd">
 
     <context:annotation-config />
-    <context:component-scan base-package="com.example" />
+    <context:component-scan base-package="com.endoftheworldimprov" />
     
     <mvc:annotation-driven/>
 
@@ -26,7 +26,15 @@
     <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
         <property name="entityManagerFactory" ref="entityManagerFactory" />
         <property name="dataSource" ref="dataSource"/>
+    </bean>
 
+    <!-- Services -->
+    <bean id="showService" class="com.endoftheworldimprov.service.impl.ShowServiceImpl">
+    </bean>
+
+    <!-- Resources -->
+    <bean id="showResource" class="com.endoftheworldimprov.resource.ShowResource">
+        <property name="showService" ref="showService" />
     </bean>
 
     <beans profile="default">

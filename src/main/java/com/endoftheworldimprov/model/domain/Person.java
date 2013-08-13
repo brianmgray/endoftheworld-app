@@ -1,4 +1,4 @@
-package com.example.model;
+package com.endoftheworldimprov.model.domain;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

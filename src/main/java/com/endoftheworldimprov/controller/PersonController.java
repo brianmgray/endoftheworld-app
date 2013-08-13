@@ -1,5 +1,6 @@
-package com.example.controller;
+package com.endoftheworldimprov.controller;
 
+import com.endoftheworldimprov.service.api.IPersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -8,8 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.example.model.Person;
-import com.example.service.PersonService;
+import com.endoftheworldimprov.model.domain.Person;
 
 import java.util.Map;
 
@@ -17,7 +17,7 @@ import java.util.Map;
 public class PersonController {
 
     @Autowired
-    private PersonService personService;
+    private IPersonService personService;
 
     @RequestMapping("/")
     public String listPeople(Map<String, Object> map) {
