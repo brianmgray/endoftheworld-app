@@ -12,7 +12,7 @@
     <h2>Welcome to the council.</h2>
     <p>On the judgement square tonight is Earth. When the time is right you will vote.</p>
     <video class="vidEarth" autoplay loop muted>
-        <source src="https://googledrive.com/host/0B7xkhjZsI46VUW1aeDJNdm9aWW8/DirtyWorldTest.mov">
+        <source src="https://googledrive.com/host/0B7xkhjZsI46VUW1aeDJNdm9aWW8/DirtyWorldTest.mp4">
         Your browser does not support the video tag.
     </video>
 </script>
