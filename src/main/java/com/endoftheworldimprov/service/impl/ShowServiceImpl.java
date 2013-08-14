@@ -76,7 +76,6 @@ public class ShowServiceImpl extends AbstractServiceImpl implements IShowService
     private void checkCodeDoesntExist(String code) {
         Long count = (Long) entityManager.createQuery("select count(*) from Show s where s.code = :code")
                 .setParameter("code", code).getSingleResult();
-        System.out.println("Count: " + count);
         Preconditions.checkArgument(count == 0, "Code already exists");
     }
 }

@@ -29,11 +29,9 @@
 
   function getIp() {
     // make a JSONP call to get the client ip
-    $.getJSON('http://jsonip.appspot.com/?callback=?',
-      function(data){
-        model.ip = data.ip;
-      })
-      .fail(function() {
+    $.getJSON('http://ip-api.com/json', function(data) {
+        model.ip = data.query;
+      }).fail(function(d) {
         model.ip = "default";
       });
   }
