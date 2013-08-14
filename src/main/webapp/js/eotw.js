@@ -4,11 +4,13 @@
 
 !function($) {
 
+  // initialize some base variables
   var baseUrl = "/api";
   var TemplateEnum = { DEFAULT: "default", VOTE: "vote", SUCCESS: "success", ERROR: "error"};
-
   var model = new eotw.Model();
 
+  // initialize pubnub and google visualizations
+  var pubnub = initPubnub();
   google.load("visualization", "1", {packages:["corechart"]});
 
   // on document ready
@@ -123,6 +125,18 @@
 
     var chart = new google.visualization.ColumnChart(document.getElementById('results'));
     chart.draw(data, options);
+  }
+
+  function initPubnub() {
+    // subscribe only
+    var pubnub = PUBNUB.init({ subscribe_key : 'sub-c-c6f35a00-04f7-11e3-a005-02ee2ddab7fe' });
+    pubnub.subscribe({
+      channel : 'eotw-show',
+      message : function(m){
+        alert('Status changed: ' + m.activationStatus);
+      }
+    });
+    return pubnub;
   }
 
   function errorFxn(jqXHR, textStatus, errorThrown) {

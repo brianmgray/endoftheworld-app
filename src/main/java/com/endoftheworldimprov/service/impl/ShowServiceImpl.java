@@ -3,13 +3,19 @@ package com.endoftheworldimprov.service.impl;
 import com.endoftheworldimprov.model.domain.ActivationStatus;
 import com.endoftheworldimprov.model.domain.Show;
 import com.endoftheworldimprov.model.dto.ShowListDto;
+import com.endoftheworldimprov.service.api.IPubSubService;
 import com.endoftheworldimprov.service.api.IShowService;
-import com.google.common.base.Preconditions;
 import lombok.extern.slf4j.Slf4j;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.NoResultException;
 import java.util.List;
+
+import static com.google.common.base.Preconditions.checkArgument;
 
 /**
  * Service to deal with Shows
@@ -19,6 +25,12 @@ import java.util.List;
 @Transactional
 //@Service("showService")
 public class ShowServiceImpl extends AbstractServiceImpl implements IShowService {
+
+    @Autowired
+    private IPubSubService pubSubService;
+
+    @Value("${pubnub.showChannel}")
+    private String showChannel;
 
     @Override
     public ShowListDto getAllShows() {
@@ -39,8 +51,12 @@ public class ShowServiceImpl extends AbstractServiceImpl implements IShowService
     public void updateActivationStatus(Long showKey, ActivationStatus activationStatus) {
         log.debug("updateActivationStatus: {}, {}", showKey, activationStatus);
         Show show = entityManager.find(Show.class, showKey);
+        checkArgument(show != null, "Show does not exist with the given key");
         show.setActivationStatus(activationStatus);
         entityManager.merge(show);
+
+        // publish the show update to the client
+        pubSubService.publish(showChannel, convertToJson(show));
     }
 
     @Override
@@ -76,6 +92,16 @@ public class ShowServiceImpl extends AbstractServiceImpl implements IShowService
     private void checkCodeDoesntExist(String code) {
         Long count = (Long) entityManager.createQuery("select count(*) from Show s where s.code = :code")
                 .setParameter("code", code).getSingleResult();
-        Preconditions.checkArgument(count == 0, "Code already exists");
+        checkArgument(count == 0, "Code already exists");
+    }
+
+    private JSONObject convertToJson(Show show) {
+        JSONObject message = new JSONObject(show);
+        try {
+            message.put("activationStatus", show.getActivationStatus().name());
+        } catch (JSONException e) {
+            log.error("JSONException updating activation status", e);
+        }
+        return message;
     }
 }
