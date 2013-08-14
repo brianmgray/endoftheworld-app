@@ -4,6 +4,7 @@ import com.endoftheworldimprov.model.domain.ActivationStatus;
 import com.endoftheworldimprov.model.domain.Show;
 import com.endoftheworldimprov.model.dto.ShowListDto;
 import com.endoftheworldimprov.service.api.IShowService;
+import com.google.common.base.Preconditions;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -73,12 +74,9 @@ public class ShowServiceImpl extends AbstractServiceImpl implements IShowService
      * @param code
      */
     private void checkCodeDoesntExist(String code) {
-        try {
-            findByCode(code);
-        } catch (IllegalArgumentException e) {
-            // no code, this is what we want
-            return;
-        }
-        throw new IllegalArgumentException("Show already exists with code: " + code);
+        Long count = (Long) entityManager.createQuery("select count(*) from Show s where s.code = :code")
+                .setParameter("code", code).getSingleResult();
+        System.out.println("Count: " + count);
+        Preconditions.checkArgument(count == 0, "Code already exists");
     }
 }
