@@ -75,7 +75,6 @@
         data: JSON.stringify(voteObj)
     })
       .done(function(data, status) {
-        goTo(TemplateEnum.SUCCESS);
         loadVotes();
       })
       .fail(errorFxn);
@@ -99,6 +98,8 @@
     $.get(baseUrl + "/vote/forShow/" + model.showKey)
       .done(function(data) {
         $.jqlog.info("votes " + JSON.stringify(data));
+        model.showMercy = (data.saveVotes > data.destroyVotes);
+        goTo(TemplateEnum.SUCCESS);
         displayResults(data);
         $('.spinner').hide();
       })

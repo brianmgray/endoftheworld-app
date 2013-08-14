@@ -11,6 +11,7 @@
       var showKey;
       var ip;
       var vote;
+      var showMercy;
     }
 
   });
