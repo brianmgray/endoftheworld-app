@@ -13,8 +13,11 @@
 
     <context:annotation-config />
     <context:component-scan base-package="com.endoftheworldimprov" />
-    
-    <mvc:annotation-driven/>
+
+    <bean id="propertyConfigurer"
+          class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="location" value="classpath:spring/pubnub.properties" />
+    </bean>
 
     <bean id="jspViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="viewClass" value="org.springframework.web.servlet.view.JstlView" />
