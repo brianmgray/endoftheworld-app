@@ -6,7 +6,7 @@
 
   // initialize some base variables
   var baseUrl = "/api";
-  var TemplateEnum = { DEFAULT: "default", VOTE: "vote", SUCCESS: "success", ERROR: "error"};
+  var TemplateEnum = { DEFAULT: "default", INACTIVE: "inactive", VOTE: "vote", SUCCESS: "success", ERROR: "error"};
   var model = new eotw.Model();
 
   // initialize pubnub and google visualizations
@@ -61,7 +61,7 @@
           goTo(TemplateEnum.VOTE);
           addVoteHandlers();
         } else {
-          goTo(TemplateEnum.DEFAULT);
+          goTo(TemplateEnum.INACTIVE);
         }
       })
       .fail(errorFxn);
@@ -133,7 +133,11 @@
     pubnub.subscribe({
       channel : 'eotw-show',
       message : function(m){
-        alert('Status changed: ' + m.activationStatus);
+        if (m.activationStatus == "ACTIVE") {
+          goTo(TemplateEnum.VOTE);
+        } else {
+          goTo(TemplateEnum.INACTIVE);
+        }
       }
     });
     return pubnub;

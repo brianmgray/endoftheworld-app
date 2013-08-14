@@ -8,6 +8,11 @@
     <img src="img/teaser.jpg" style="teaser" class="img-responsive">
 </script>
 
+<script id="inactive-template" type="text/x-handlebars-template">
+    <h2>Welcome to the council.</h2>
+    <p>On the judgement square tonight is Earth. When the time is right you will vote.</p>
+</script>
+
 <script id="vote-template" type="text/x-handlebars-template">
     <h3>Welcome council member.</h3>
     <h2>Do you want to...</h2>
