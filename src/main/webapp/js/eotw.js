@@ -43,7 +43,8 @@
     var template = '#' + templateEnum + '-template';
     var source   = $(template).html();
     var template = Handlebars.compile(source);
-    $('.template').html(template);
+    var html = template(model);
+    $('.template').html(html);
   }
 
 
@@ -66,8 +67,8 @@
       .fail(errorFxn);
   }
 
-  function vote(vote) {
-    var voteObj = { "showKey": model.showKey, "ip": model.ip, "vote": vote };
+  function vote() {
+    var voteObj = { "showKey": model.showKey, "ip": model.ip, "vote": model.vote };
     $.ajax({
         url: baseUrl + '/vote',
         type: 'POST',
@@ -84,11 +85,13 @@
 
   function addVoteHandlers() {
     $('#btnSave').click(function(e){
-      vote("SAVE");
+      model.vote = "SAVE";
+      vote();
       return false;
     });
     $('#btnDestroy').click(function(e){
-      vote("DESTROY");
+      model.vote = "DESTROY";
+      vote();
       return false;
     });
   }

@@ -10,6 +10,7 @@
     Model : function() {
       var showKey;
       var ip;
+      var vote;
     }
 
   });
