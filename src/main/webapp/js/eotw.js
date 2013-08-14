@@ -32,6 +32,9 @@
     $.getJSON('http://jsonip.appspot.com/?callback=?',
       function(data){
         model.ip = data.ip;
+      })
+      .fail(function() {
+        model.ip = "default";
       });
   }
 

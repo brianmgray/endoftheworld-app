@@ -29,6 +29,7 @@ public class ShowServiceImpl extends AbstractServiceImpl implements IShowService
     @Override
     public Long create(Show show) {
         log.debug("create: {}", show);
+        checkCodeDoesntExist(show.getCode());
         Show answer = entityManager.merge(show);
         return answer.getKey();
     }
@@ -65,5 +66,19 @@ public class ShowServiceImpl extends AbstractServiceImpl implements IShowService
         } catch (NoResultException e) {
             throw new IllegalArgumentException("Code " + code + " does not map to a show");
         }
+    }
+
+    /**
+     * Check the code doesn't already exist
+     * @param code
+     */
+    private void checkCodeDoesntExist(String code) {
+        try {
+            findByCode(code);
+        } catch (IllegalArgumentException e) {
+            // no code, this is what we want
+            return;
+        }
+        throw new IllegalArgumentException("Show already exists with code: " + code);
     }
 }

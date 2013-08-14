@@ -25,6 +25,9 @@ import java.util.Map;
 @Transactional
 public class VoteServiceImpl extends AbstractServiceImpl implements IVoteService {
 
+    // IP used when the IP cannot be determined
+    private static final String DEFAULT_IP = "default";
+
     @Setter
     private IShowService showService;
 
@@ -77,7 +80,7 @@ public class VoteServiceImpl extends AbstractServiceImpl implements IVoteService
      * @return vote if there is one, null otherwise
      */
     private Vote getVoteByIp(String ip) {
-        if (!Strings.isNullOrEmpty(ip)) {
+        if (!Strings.isNullOrEmpty(ip) && !DEFAULT_IP.equals(ip)) {
             List<Vote> votes = entityManager.createQuery("select v from Vote v where v.ip = :ip", Vote.class)
                     .setParameter("ip", ip).getResultList();
             return Iterables.getFirst(votes, null);
