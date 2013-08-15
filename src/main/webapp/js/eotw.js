@@ -61,7 +61,7 @@
           goTo(TemplateEnum.VOTE);
           addVoteHandlers();
         } else {
-          goTo(TemplateEnum.INACTIVE);
+          loadInactive();
         }
       })
       .fail(errorFxn);
@@ -136,11 +136,19 @@
         if (m.activationStatus == "ACTIVE") {
           goTo(TemplateEnum.VOTE);
         } else {
-          goTo(TemplateEnum.INACTIVE);
+          loadInactive();
         }
       }
     });
     return pubnub;
+  }
+
+  function loadInactive() {
+    goTo(TemplateEnum.INACTIVE);
+    $(".vidEarth").get(0).play();
+    $(".vidEarth").bind('ended', function(){
+      this.play();
+    });
   }
 
   function errorFxn(jqXHR, textStatus, errorThrown) {
