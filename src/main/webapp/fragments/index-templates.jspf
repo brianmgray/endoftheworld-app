@@ -11,7 +11,7 @@
 <script id="inactive-template" type="text/x-handlebars-template">
     <h2>Welcome to the council.</h2>
     <p>On the judgement square tonight is Earth. When the time is right you will vote.</p>
-    <video class="vidEarth" autoplay muted loop>
+    <video class="vidEarth" autobuffer muted>
         <source src="https://googledrive.com/host/0B7xkhjZsI46VUW1aeDJNdm9aWW8/DirtyWorldTest.mp4" type="video/mp4">
         <p>Your browser does not support the video tag.</p>
     </video>
