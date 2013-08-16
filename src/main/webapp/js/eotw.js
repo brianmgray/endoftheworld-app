@@ -145,13 +145,10 @@
 
   function loadInactive() {
     goTo(TemplateEnum.INACTIVE);
-    var video = $(".vidEarth");
-    video.bind('canplay ended', function(){
-      video.get(0).play();
+    $(".vidEarth").get(0).play();
+    $(".vidEarth").bind('ended', function(){
+      this.play();
     });
-
-    video.get(0).load();
-    video.get(0).play();
   }
 
   function errorFxn(jqXHR, textStatus, errorThrown) {
