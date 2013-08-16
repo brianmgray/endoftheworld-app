@@ -109,18 +109,17 @@
   }
 
   function displayResults(showData) {
+    // set chart up as a series so color can be controlled
     var data = google.visualization.arrayToDataTable([
-      ['Choice', 'Num Votes'],
-      ['Save', showData.saveVotes],
-      ['Destroy', showData.destroyVotes]
+      ['Vote', 'Save',                  'Destroy'],
+      ['Vote',  showData.saveVotes,      showData.destroyVotes]
     ]);
 
     var options = {
       backgroundColor: '#140f0f',
-      legend: {position: 'none'},
+      legend: {position: 'right', textStyle: {color: '#CDCDCD'}},
       hAxis: {titleTextStyle: {color: '#CDCDCD'}, textStyle: {color: '#CDCDCD'}},
-      colors: ['#CDCDCD'],
-      series: [{color: '#d43f3a'}] // #d43f3a
+      colors: ['5cb85c', 'd43f3a']
     };
 
     var chart = new google.visualization.ColumnChart(document.getElementById('results'));
