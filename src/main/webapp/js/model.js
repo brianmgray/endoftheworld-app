@@ -1,5 +1,5 @@
 /**
- * App JS
+ * Shared Model
  */
 
 !function($) {

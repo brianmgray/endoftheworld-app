@@ -1,24 +1,51 @@
 /**
- * App JS
+ * Admin JS
  */
 
-google.load("visualization", "1", {packages:["corechart"]});
-//google.setOnLoadCallback(drawChart);
-function drawChart() {
-  var data = google.visualization.arrayToDataTable([
-    ['Choice', 'Num Votes'],
-    ['Save', 13],
-    ['Destroy', 25]
-  ]);
+!function($) {
 
-  var options = {
-    backgroundColor: '#140f0f',
-    legend: {position: 'none'},
-    hAxis: {titleTextStyle: {color: '#CDCDCD'}, textStyle: {color: '#CDCDCD'}},
-    colors: ['#CDCDCD'],
-    series: [{color: '#d43f3a'}] // #d43f3a
-  };
+  // initialize some base variables
+  var constants = new eotw.Constants();
+  var TemplateEnum = { MENU: "menu", ADD_SHOW: "add_show", ACTIVATE: "activate", RESULTS: "results" };
 
-  var chart = new google.visualization.ColumnChart(document.getElementById('results'));
-  chart.draw(data, options);
-}
+  // initialize pubnub and google visualizations
+  var pubnub = initPubnub();
+
+  // on document ready
+  $(function() {
+    $.jqlog.enabled(constants.logEnabled);
+  });
+
+  // load templates
+  function goTo(templateEnum) {
+    var template = '#' + templateEnum + '-template';
+    var source   = $(template).html();
+    var template = Handlebars.compile(source);
+    var html = template(model);
+    $('.template').html(html);
+
+    // subscribe to vote updates on the results page
+    if (template == TemplateEnum.RESULTS) {
+      pubnub.subscribe({
+        channel : 'eotw-vote',
+        message : function(m){
+          $.jqlog.info('vote: ' + m);
+        }
+      });
+    } else {
+      pubnub.unsubscribe({ channel : 'chan8' })
+    }
+  }
+
+  function initPubnub() {
+    // subscribe only
+    return PUBNUB.init({ subscribe_key : constants.subscribeKey });
+  }
+
+  function errorFxn(jqXHR, textStatus, errorThrown) {
+    $('.spinner').hide();
+    $.jqlog.error(textStatus + "..." + errorThrown);
+    goTo(TemplateEnum.ERROR);
+  }
+
+}(window.jQuery);

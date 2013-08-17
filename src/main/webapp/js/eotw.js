@@ -5,7 +5,7 @@
 !function($) {
 
   // initialize some base variables
-  var baseUrl = "/api";
+  var constants = new eotw.Constants();
   var TemplateEnum = { DEFAULT: "default", INACTIVE: "inactive", VOTE: "vote", SUCCESS: "success", ERROR: "error"};
   var model = new eotw.Model();
 
@@ -15,7 +15,7 @@
 
   // on document ready
   $(function() {
-    $.jqlog.enabled(true);
+    $.jqlog.enabled(constants.logEnabled);
 
     getIp();
     var code = $.url().param('code');
@@ -53,7 +53,7 @@
    * @param code
    */
   function checkCode(code) {
-    $.get(baseUrl + "/show/active/" + code)
+    $.get(constants.baseUrl + "/show/active/" + code)
      .done(function(data) {
         $.jqlog.info("Active? " + data.activationStatus);
         if (data.activationStatus == "ACTIVE") {
@@ -70,7 +70,7 @@
   function vote() {
     var voteObj = { "showKey": model.showKey, "ip": model.ip, "vote": model.vote };
     $.ajax({
-        url: baseUrl + '/vote',
+        url: constants.baseUrl + '/vote',
         type: 'POST',
         contentType: 'application/json',
         dataType: 'json',
@@ -97,7 +97,7 @@
 
   function loadVotes() {
     $('.spinner').show();
-    $.get(baseUrl + "/vote/forShow/" + model.showKey)
+    $.get(constants.baseUrl + "/vote/forShow/" + model.showKey)
       .done(function(data) {
         $.jqlog.info("votes " + JSON.stringify(data));
         model.showMercy = (data.saveVotes > data.destroyVotes);
@@ -128,7 +128,7 @@
 
   function initPubnub() {
     // subscribe only
-    var pubnub = PUBNUB.init({ subscribe_key : 'sub-c-c6f35a00-04f7-11e3-a005-02ee2ddab7fe' });
+    var pubnub = PUBNUB.init({ subscribe_key : constants.subscribeKey });
     pubnub.subscribe({
       channel : 'eotw-show',
       message : function(m){
