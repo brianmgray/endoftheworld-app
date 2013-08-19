@@ -40,6 +40,10 @@ ul {
     height: 337px;
 }
 
+ul.menu {
+    margin-top: 10px;
+}
+
 /** Mobile specific styles **/
 @media screen and (max-width: 480px) {
 

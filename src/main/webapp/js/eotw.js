@@ -5,7 +5,7 @@
 !function($) {
 
   // initialize some base variables
-  var constants = new eotw.Constants();
+  var constants = eotw.Constants;
   var TemplateEnum = { DEFAULT: "default", INACTIVE: "inactive", VOTE: "vote", SUCCESS: "success", ERROR: "error"};
   var model = new eotw.Model();
 

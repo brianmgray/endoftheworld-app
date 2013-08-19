@@ -12,6 +12,7 @@
       var ip;
       var vote;
       var showMercy;
+      var shows;
     }
 
   });

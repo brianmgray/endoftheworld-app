@@ -17,3 +17,4 @@
 
 <!-- App code -->
 <script src="js/constants.js"></script>
+<script src="js/model.js"></script>
