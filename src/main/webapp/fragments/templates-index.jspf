@@ -1,3 +1,5 @@
+<!-- Handlebars templates for main app -->
+
 <script id="default-template" type="text/x-handlebars-template">
     <h2>Welcome council member.</h2>
     <p>Council is not currently in session, but we will begin again soon. Stay tuned to

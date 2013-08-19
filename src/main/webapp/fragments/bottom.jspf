@@ -16,5 +16,4 @@
 <script type="text/javascript" src="https://www.google.com/jsapi"></script>
 
 <!-- App code -->
-<script src="js/model.js"></script>
-<script src="js/eotw.js"></script>
+<script src="js/constants.js"></script>

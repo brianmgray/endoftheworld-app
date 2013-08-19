@@ -1,14 +1,15 @@
 <%@ include file="/fragments/top.jspf" %>
 
-<%@ include file="/fragments/index-templates.jspf" %>
+<%@ include file="/fragments/templates-admin.jspf" %>
 
+<a href="#menu">&laquo; Menu</a>
 <div class="template">
-    <h2>Admin</h2>
 </div>
 
 <%@ include file="/fragments/bottom.jspf" %>
 
 <!-- Additional Libraries -->
+<script src="js/jquery.history.min.js"></script>
 
 <!-- App Code -->
 <script src="js/eotw-admin.js"></script>

@@ -1,0 +1,23 @@
+<!-- Handlebars templates for admin -->
+
+<script id="menu-template" type="text/x-handlebars-template">
+    <h2>Admin menu</h2>
+    <ul>
+        <li><a id="lnkShow" href="#add">Add a show</a></li>
+        <li><a id="lnkActivate" href="#activate">De/Activate a show</a></li>
+        <li><a id="lnkResults" href="#results">Results</a></li>
+    </ul>
+</script>
+
+<script id="add_show-template" type="text/x-handlebars-template">
+    <h2>Add show.</h2>
+</script>
+
+<script id="activate-template" type="text/x-handlebars-template">
+    <h2>Add show.</h2>
+</script>
+
+<script id="results-template" type="text/x-handlebars-template">
+    <div id="results" class="results hcenter"></div>
+</script>
+

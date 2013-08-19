@@ -5,8 +5,8 @@
 !function($) {
 
   // initialize some base variables
-  var constants = new eotw.Constants();
-  var TemplateEnum = { MENU: "menu", ADD_SHOW: "add_show", ACTIVATE: "activate", RESULTS: "results" };
+  var constants = eotw.Constants;
+  var TemplateEnum = { MENU: "menu", ADD: "add", ACTIVATE: "activate", RESULTS: "results" };
 
   // initialize pubnub and google visualizations
   var pubnub = initPubnub();
@@ -14,6 +14,9 @@
   // on document ready
   $(function() {
     $.jqlog.enabled(constants.logEnabled);
+    bindHistoryEvents();
+    $.History.go('menu');
+    $('.spinner').hide();
   });
 
   // load templates
@@ -21,8 +24,7 @@
     var template = '#' + templateEnum + '-template';
     var source   = $(template).html();
     var template = Handlebars.compile(source);
-    var html = template(model);
-    $('.template').html(html);
+    $('.template').html(template);
 
     // subscribe to vote updates on the results page
     if (template == TemplateEnum.RESULTS) {
@@ -42,10 +44,32 @@
     return PUBNUB.init({ subscribe_key : constants.subscribeKey });
   }
 
+  function bindHistoryEvents() {
+    // Bind a handler for ALL hash/state changes
+    $.History.bind(function(state){
+      // go to the appropriate template
+      $.jqlog.info("Switching to: " + state);
+      goTo(state);
+      addHandlers(state);
+    });
+  }
+
   function errorFxn(jqXHR, textStatus, errorThrown) {
     $('.spinner').hide();
     $.jqlog.error(textStatus + "..." + errorThrown);
     goTo(TemplateEnum.ERROR);
+  }
+
+  /**
+   * Add event handlers based on the state
+   * @param state
+   */
+  function addHandlers(state) {
+    switch (state) {
+      default:
+        // do nothing
+        break;
+    }
   }
 
 }(window.jQuery);
