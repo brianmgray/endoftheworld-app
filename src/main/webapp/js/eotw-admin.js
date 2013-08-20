@@ -42,7 +42,10 @@
 
   function initPubnub() {
     // subscribe only
-    return PUBNUB.init({ subscribe_key : constants.subscribeKey });
+    return PUBNUB.init({
+      origin        : 'pubsub.pubnub.com', // for same origin issue
+      subscribe_key : constants.subscribeKey
+    });
   }
 
   function bindHistoryEvents() {

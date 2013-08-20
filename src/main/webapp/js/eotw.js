@@ -128,7 +128,10 @@
 
   function initPubnub() {
     // subscribe only
-    var pubnub = PUBNUB.init({ subscribe_key : constants.subscribeKey });
+    var pubnub = PUBNUB.init({
+      origin        : 'pubsub.pubnub.com', // for same origin issue
+      subscribe_key : constants.subscribeKey
+    });
     pubnub.subscribe({
       channel : 'eotw-show',
       message : function(m){
