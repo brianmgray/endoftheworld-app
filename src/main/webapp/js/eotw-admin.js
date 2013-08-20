@@ -90,8 +90,7 @@
         pubnub.subscribe({
           channel : 'eotw-vote',
           message : function(m){
-            // TODO reload votes
-            $.jqlog.info('vote: ' + m);
+            loadVotes();
           }
         });
         break;
@@ -100,8 +99,9 @@
         break;
     }
 
+    // not on the results page, unsubscribe pubnub
     if (state != TemplateEnum.RESULTS) {
-      pubnub.unsubscribe({ channel : 'chan8' })
+      pubnub.unsubscribe({ channel : 'eotw-vote' })
     }
   }
 
@@ -134,6 +134,7 @@
       colors: ['5cb85c', 'd43f3a']
     };
 
+    $('#results').empty();
     var chart = new google.visualization.ColumnChart(document.getElementById('results'));
     chart.draw(data, options);
   }

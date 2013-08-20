@@ -1,10 +1,12 @@
 package com.endoftheworldimprov.service.impl;
 
+import com.endoftheworldimprov.JsonUtils;
 import com.endoftheworldimprov.model.domain.ActivationStatus;
 import com.endoftheworldimprov.model.domain.Show;
 import com.endoftheworldimprov.model.domain.Vote;
 import com.endoftheworldimprov.model.dto.VoteDto;
 import com.endoftheworldimprov.model.dto.VotesForShow;
+import com.endoftheworldimprov.service.api.IPubSubService;
 import com.endoftheworldimprov.service.api.IShowService;
 import com.endoftheworldimprov.service.api.IVoteService;
 import com.google.common.base.Preconditions;
@@ -12,6 +14,8 @@ import com.google.common.base.Strings;
 import com.google.common.collect.Iterables;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -30,6 +34,12 @@ public class VoteServiceImpl extends AbstractServiceImpl implements IVoteService
 
     @Setter
     private IShowService showService;
+
+    @Autowired
+    private IPubSubService pubSubService;
+
+    @Value("${pubnub.voteChannel}")
+    private String voteChannel;
 
     @Override
     public VotesForShow getVoteTotals(Long showKey) {
@@ -71,6 +81,9 @@ public class VoteServiceImpl extends AbstractServiceImpl implements IVoteService
         }
 
         Vote answer = entityManager.merge(toPersist);
+
+        // notify pubnub
+        pubSubService.publish(voteChannel, JsonUtils.convertToJson(show));
         return answer.getKey();
     }
 

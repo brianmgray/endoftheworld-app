@@ -1,13 +1,12 @@
 package com.endoftheworldimprov.service.impl;
 
+import com.endoftheworldimprov.JsonUtils;
 import com.endoftheworldimprov.model.domain.ActivationStatus;
 import com.endoftheworldimprov.model.domain.Show;
 import com.endoftheworldimprov.model.dto.ShowListDto;
 import com.endoftheworldimprov.service.api.IPubSubService;
 import com.endoftheworldimprov.service.api.IShowService;
 import lombok.extern.slf4j.Slf4j;
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.transaction.annotation.Transactional;
@@ -56,7 +55,7 @@ public class ShowServiceImpl extends AbstractServiceImpl implements IShowService
         entityManager.merge(show);
 
         // publish the show update to the client
-        pubSubService.publish(showChannel, convertToJson(show));
+        pubSubService.publish(showChannel, JsonUtils.convertToJson(show));
     }
 
     @Override
@@ -93,15 +92,5 @@ public class ShowServiceImpl extends AbstractServiceImpl implements IShowService
         Long count = (Long) entityManager.createQuery("select count(*) from Show s where s.code = :code")
                 .setParameter("code", code).getSingleResult();
         checkArgument(count == 0, "Code already exists");
-    }
-
-    private JSONObject convertToJson(Show show) {
-        JSONObject message = new JSONObject(show);
-        try {
-            message.put("activationStatus", show.getActivationStatus().name());
-        } catch (JSONException e) {
-            log.error("JSONException updating activation status", e);
-        }
-        return message;
     }
 }
