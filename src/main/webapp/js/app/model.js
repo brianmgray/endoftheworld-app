@@ -12,6 +12,10 @@
       var ip;
       var vote;
       var showMercy;
+    },
+
+    AdminModel : function() {
+      var selectedShow;
       var shows;
     }
 

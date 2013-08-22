@@ -6,7 +6,7 @@
 
   // initialize some base variables
   var constants = eotw.Constants;
-  var model = new eotw.Model();
+  var model = new eotw.AdminModel();
   var TemplateEnum = { MENU: "menu", ADD: "add", ACTIVATE: "activate", RESULTS: "results" };
 
   // initialize pubnub and google visualizations
@@ -19,19 +19,26 @@
     $('.header').detach();
     bindHistoryEvents();
     registerHandlebarHelpers();
+    loadShows(function(shows) {
+      $.History.go('menu'); // default to menu
+    });
+  });
 
+  /**
+   * (re)Load all shows
+   * @param callback
+   */
+  function loadShows(callback) {
     // load the current shows
     $.get(constants.baseUrl + "/show/all")
       .done(function(data) {
         $.jqlog.info("shows " + JSON.stringify(data));
         model.shows = data.shows;
-//        if ($.History.getHash() == "") {
-        $.History.go('menu'); // default to menu
-//        }
+        callback(model.shows);
         $('.spinner').hide();
       })
       .fail(errorFxn);
-  });
+  }
 
   // load templates
   function goTo(templateEnum) {
@@ -59,9 +66,9 @@
       goTo(state);
       var dropdown = $('#selectShow');
       dropdown.change(function(e) {
-        model.showKey = $('#selectShow option:selected').val();
+        model.show = findSelectedShow($('#selectShow option:selected').val(), model.shows);
       });
-      model.showKey = $('#selectShow option:selected').val();
+      model.show = findSelectedShow($('#selectShow option:selected').val(), model.shows);
       pubnub.unsubscribe({ channel : 'eotw-vote' })
     });
 
@@ -76,24 +83,43 @@
       });
     });
 
+    $.History.bind('activate', function(state) {
+      goTo(state);
+      setupActivate();
+      pubnub.unsubscribe({ channel : 'eotw-vote' });
+    });
+
     $.History.bind('add', function(state) {
        // TODO
       goTo(state);
-      pubnub.unsubscribe({ channel : 'eotw-vote' })
+      pubnub.unsubscribe({ channel : 'eotw-vote' });
     });
   }
 
-  function registerHandlebarHelpers() {
-    Handlebars.registerHelper("foreach",function(arr,options) {
-      if(options.inverse && !arr.length)
-        return options.inverse(this);
+  function setupActivate() {
+    // update the view
+    var newStatus = model.show.activationStatus == 'ACTIVE' ? 'INACTIVE' : 'ACTIVE';
+    $('#btn' + model.show.activationStatus).show();
+    $('#btn' + newStatus).hide();
 
-      return arr.map(function(item,index) {
-        item.$index = index;
-        item.$first = index === 0;
-        item.$last  = index === arr.length-1;
-        return options.fn(item);
-      }).join('');
+    // add the button handler
+    $('#btn' + model.show.activationStatus).click(function(e) {
+      $.ajax({
+        url: constants.baseUrl + '/show/' + model.show.key + '/' + newStatus,
+        type: 'PUT',
+        contentType: 'application/json',
+        dataType: 'json'
+      })
+      .done(function(data, status) {
+          loadShows(function(newShows) {
+            // the closure still has the old show
+            model.shows = newShows;
+            model.show = findSelectedShow(model.show.key, model.shows);
+            setupActivate();
+          });
+      })
+      .fail(errorFxn);
+      return false;
     });
   }
 
@@ -131,10 +157,31 @@
     chart.draw(data, options);
   }
 
+  function findSelectedShow(selectedKey, shows) {
+    var selectedModels = $.grep(shows, function(element, index) {
+       return element.key == selectedKey;
+    });
+    return selectedModels.length == 1 ? selectedModels[0] : null;
+  }
+
   function errorFxn(jqXHR, textStatus, errorThrown) {
     $('.spinner').hide();
     $.jqlog.error(textStatus + "..." + errorThrown);
     goTo(TemplateEnum.ERROR);
+  }
+
+  function registerHandlebarHelpers() {
+    Handlebars.registerHelper("foreach",function(arr,options) {
+      if(options.inverse && !arr.length)
+        return options.inverse(this);
+
+      return arr.map(function(item,index) {
+        item.$index = index;
+        item.$first = index === 0;
+        item.$last  = index === arr.length-1;
+        return options.fn(item);
+      }).join('');
+    });
   }
 
 }(window.jQuery);
