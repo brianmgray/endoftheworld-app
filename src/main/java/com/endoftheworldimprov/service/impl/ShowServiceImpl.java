@@ -34,7 +34,8 @@ public class ShowServiceImpl extends AbstractServiceImpl implements IShowService
     @Override
     public ShowListDto getAllShows() {
         log.debug("getAllShows");
-        List<Show> shows =  entityManager.createQuery("select s from Show s", Show.class).getResultList();
+        List<Show> shows =  entityManager.createQuery("select s from Show s order by s.date desc",
+                Show.class).getResultList();
         return new ShowListDto(shows);
     }
 
