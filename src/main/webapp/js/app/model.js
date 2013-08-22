@@ -15,7 +15,7 @@
     },
 
     AdminModel : function() {
-      var selectedShow;
+      var show;
       var shows;
     }
 

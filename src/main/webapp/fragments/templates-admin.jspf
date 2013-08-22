@@ -31,7 +31,7 @@
 <script id="results-template" type="text/x-handlebars-template">
     <h2>Scan to vote</h2>
     <div class="center">
-        <img src="img/codes/code-{{showKey}}.png" />
+        <img src="img/codes/code-{{show.key}}.png" />
     </div>
     {{#if showMercy}}
     <h3>The universe is a happy place.</h3>
