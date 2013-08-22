@@ -25,7 +25,9 @@
       .done(function(data) {
         $.jqlog.info("shows " + JSON.stringify(data));
         model.shows = data.shows;
-        $.History.go('menu');
+//        if ($.History.getHash() == "") {
+        $.History.go('menu'); // default to menu
+//        }
         $('.spinner').hide();
       })
       .fail(errorFxn);
@@ -49,12 +51,35 @@
   }
 
   function bindHistoryEvents() {
-    // Bind a handler for ALL hash/state changes
     $.History.bind(function(state){
-      // go to the appropriate template
       $.jqlog.info("Switching to: " + state);
+    });
+
+    $.History.bind('menu', function(state) {
       goTo(state);
-      addHandlers(state);
+      var dropdown = $('#selectShow');
+      dropdown.change(function(e) {
+        model.showKey = $('#selectShow option:selected').val();
+      });
+      model.showKey = $('#selectShow option:selected').val();
+      pubnub.unsubscribe({ channel : 'eotw-vote' })
+    });
+
+    $.History.bind('results', function(state) {
+      goTo(state);
+      loadVotes();
+      pubnub.subscribe({
+        channel : 'eotw-vote',
+        message : function(m){
+          loadVotes();
+        }
+      });
+    });
+
+    $.History.bind('add', function(state) {
+       // TODO
+      goTo(state);
+      pubnub.unsubscribe({ channel : 'eotw-vote' })
     });
   }
 
@@ -70,39 +95,6 @@
         return options.fn(item);
       }).join('');
     });
-  }
-
-  /**
-   * Add event handlers based on the state
-   * @param state
-   */
-  function addHandlers(state) {
-    switch (state) {
-      case TemplateEnum.MENU:
-        var dropdown = $('#selectShow');
-        dropdown.change(function(e) {
-          model.showKey = $('#selectShow option:selected').val();
-        });
-        model.showKey = $('#selectShow option:selected').val();
-        break;
-      case TemplateEnum.RESULTS:
-        loadVotes();
-        pubnub.subscribe({
-          channel : 'eotw-vote',
-          message : function(m){
-            loadVotes();
-          }
-        });
-        break;
-      default:
-        // do nothing
-        break;
-    }
-
-    // not on the results page, unsubscribe pubnub
-    if (state != TemplateEnum.RESULTS) {
-      pubnub.unsubscribe({ channel : 'eotw-vote' })
-    }
   }
 
   // TODO reduce duplication with eotw.js

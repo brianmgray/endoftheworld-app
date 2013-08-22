@@ -11,7 +11,7 @@
 <!-- Additional Libraries -->
 
 <!-- App Code -->
-<script src="js/eotw.js"></script>
+<script src="js/app/eotw.js"></script>
 
 </body>
 

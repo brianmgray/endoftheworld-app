@@ -10,10 +10,10 @@
 
 <!-- Additional Libraries -->
 <%--<script src="js/jquery.history.min.js"></script>--%>
-<script src="js/jquery.history.js"></script>
+<script src="js/lib/jquery.history.js"></script>
 
 <!-- App Code -->
-<script src="js/eotw-admin.js"></script>
+<script src="js/app/eotw-admin.js"></script>
 
 </body>
 
