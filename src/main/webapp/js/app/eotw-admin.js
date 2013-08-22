@@ -74,11 +74,11 @@
 
     $.History.bind('results', function(state) {
       goTo(state);
-      loadVotes();
+      loadVotes(model.show.key);
       pubnub.subscribe({
         channel : 'eotw-vote',
         message : function(m){
-          loadVotes();
+          loadVotes(model.show.key);
         }
       });
     });
@@ -125,9 +125,9 @@
 
   // TODO reduce duplication with eotw.js
 
-  function loadVotes() {
+  function loadVotes(showKey) {
     $('.spinner').show();
-    $.get(constants.baseUrl + "/vote/forShow/" + model.showKey)
+    $.get(constants.baseUrl + "/vote/forShow/" + showKey)
       .done(function(data) {
         $.jqlog.info("votes " + JSON.stringify(data));
         model.showMercy = (data.saveVotes > data.destroyVotes);
