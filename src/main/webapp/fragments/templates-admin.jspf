@@ -15,14 +15,25 @@
 </script>
 
 <script id="add_show-template" type="text/x-handlebars-template">
+    <a class="menu" href="#menu">&laquo; Menu</a>
     <h2>Add show.</h2>
 </script>
 
 <script id="activate-template" type="text/x-handlebars-template">
+    <a class="menu" href="#menu">&laquo; Menu</a>
     <h2>De/Activate a show.</h2>
 </script>
 
 <script id="results-template" type="text/x-handlebars-template">
+    <h2>Scan to vote</h2>
+    <div class="center">
+        <img src="img/codes/code-{{showKey}}.png" />
+    </div>
+    {{#if showMercy}}
+    <h3>The universe is a happy place.</h3>
+    {{else}}
+    <h3>Survival seems dire.</h3>
+    {{/if}}
     <div id="results" class="results hcenter"></div>
 </script>
 

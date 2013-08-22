@@ -2,7 +2,6 @@
 
 <%@ include file="/fragments/templates-admin.jspf" %>
 
-<a href="#menu">&laquo; Menu</a>
 <div class="template">
 </div>
 
