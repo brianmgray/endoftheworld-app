@@ -35,13 +35,7 @@
     {{else}}
     <h3>Survival seems dire.</h3>
     {{/if}}
-    <a class="webicon facebook large" title="Share on Facebook" href="#" onclick="
-        window.open(
-          'https://www.facebook.com/sharer/sharer.php?u=https://www.facebook.com/events/1395763647307110',
-          'facebook-share-dialog',
-          'width=626,height=436');
-        return false;">
-    </a>
+    <a class="webicon facebook large" title="Share on Facebook" vote="{{vote}}"></a>
     <a class="webicon twitter large"
        href="https://twitter.com/intent/tweet?button_hashtag=eotwimprov&text=I%20just%20voted%20to%20{{vote}}%20humanity%20at%20http://on.fb.me/17kjf9o"></a>
     <a class="webicon mail large" title="Share via email"

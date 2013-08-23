@@ -102,10 +102,27 @@
         $.jqlog.info("votes " + JSON.stringify(data));
         model.showMercy = (data.saveVotes > data.destroyVotes);
         goTo(TemplateEnum.SUCCESS);
+        addFacebookHandler();
         displayResults(data);
         $('.spinner').hide();
       })
       .fail(errorFxn);
+  }
+
+  function addFacebookHandler() {
+    $('.facebook').click(function(e) {
+      var vote = $(this).attr('vote');
+      FB.ui({
+        method: 'feed',
+        link: 'http://on.fb.me/17kjf9o',
+        picture: 'http://endoftheworldimprov.com/img/logo.jpg',
+        name: 'I just voted to ' + vote + ' the humans at The End of the World Show!',
+        description: 'You can too! FOUR PERFORMANCES ONLY: Fridays at 10pm through 9/13 at Arcade Comedy Theater. $10/$5. BYOB./n/n' +
+          'THE END OF THE WORLD SHOW is a brand new take on the apocalypse. Prepare to be transformed (physically and mentally) into a creature from another planet, and view mankind from an outside eye./n/n' +
+          'In the not too distant future, an alien race has taken over Earth and are hell-bent on its destruction. A motley band of humans win an audience with the Alien Counsel to attempt to prove the emotional life, meaningful relationships and humor of mankind is worth saving!/n/n' +
+          'Will they succeed? Will man be spared? It’s up to you! You act the part of the alien counsel as the performers play improv games to win your sympathy toward mankind.'
+      }, function(response){});
+    })
   }
 
   function displayResults(showData) {
