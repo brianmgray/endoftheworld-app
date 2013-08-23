@@ -84,11 +84,13 @@
 
   function addVoteHandlers() {
     $('#btnSave').click(function(e){
+      $(this).attr('disabled', true);
       model.vote = "SAVE";
       vote();
       return false;
     });
     $('#btnDestroy').click(function(e){
+      $(this).attr('disabled', true);
       model.vote = "DESTROY";
       vote();
       return false;
