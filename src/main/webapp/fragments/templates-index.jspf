@@ -6,13 +6,12 @@
         <a href="https://www.facebook.com/events/1395763647307110/" target="_blank">
             broadcasts from home!</a> for more info.
     </p>
-
     <img src="img/teaser.jpg" style="teaser" class="img-responsive">
 </script>
 
 <script id="inactive-template" type="text/x-handlebars-template">
-    <h2>Welcome to the council.</h2>
-    <p>On the judgement square tonight is Earth. When the time is right you will vote.</p>
+    <h2>Voting has not yet begun.</h2>
+    <p>The overlord will let you know when you can decide the fate of this planet.</p>
     <video class="vidEarth" autoplay muted loop>
         <source src="https://googledrive.com/host/0B7xkhjZsI46VUW1aeDJNdm9aWW8/DirtyWorldTest.mp4" type="video/mp4">
         <p>Your browser does not support the video tag.</p>
